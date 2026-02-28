@@ -200,10 +200,10 @@ main()
   if $show_powerline; then
     tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${dark_purple}]${left_sep}#[fg=${white},bg=${dark_purple}] #I #W${current_flags} #[fg=${dark_purple},bg=${gray}]${left_sep}"
   else
-    tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #{?window_zoomed_flag,🔎 ,}#W${current_flags} "
+    tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #W#{?window_zoomed_flag, 🔎,}${current_flags} "
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #{?window_zoomed_flag,🔎 ,}#W${flags}"
+  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W#{?window_zoomed_flag, 🔎,}${flags}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
 }
