@@ -101,9 +101,9 @@ main()
 
   # pane border styling
   if $show_border_contrast; then
-    tmux set-option -g pane-active-border-style "fg=${light_purple}"
+    tmux set-option -g pane-active-border-style "fg=${orange}"
   else
-    tmux set-option -g pane-active-border-style "fg=${dark_purple}"
+    tmux set-option -g pane-active-border-style "fg=${orange}"
   fi
   tmux set-option -g pane-border-style "fg=${gray}"
 
@@ -121,7 +121,8 @@ main()
     tmux set-option -g status-left "#[bg=${light_purple},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
   fi
 
-  # Status right
+  # Status right -- only touch if real plugins are configured
+  if [ ${#plugins[@]} -gt 0 ] && [ "${plugins[0]}" != "none" ]; then
   tmux set-option -g status-right ""
 
   for plugin in "${plugins[@]}"; do
@@ -193,6 +194,7 @@ main()
       tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
     fi
   done
+  fi # end plugins guard
 
   # Window option
   if $show_powerline; then
