@@ -40,6 +40,9 @@ main()
   tn_blue='#7aa2f7'
   tn_orange='#ff9e64'
   tn_fg_dark='#a9b1d6'
+  tn_bar_bg='#24283b'
+  slant_left=$'\ue0be'
+  slant_right=$'\ue0b8'
 
   # Handle left icon configuration
   case $show_left_icon in
@@ -114,14 +117,14 @@ main()
   tmux set-option -g message-style "bg=${gray},fg=${white}"
 
   # status bar
-  tmux set-option -g status-style "bg=${gray},fg=${white}"
+  tmux set-option -g status-style "bg=${tn_bar_bg},fg=${white}"
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
-    powerbg=${gray}
+    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${tn_bar_bg}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    powerbg=${tn_bar_bg}
   else
-    tmux set-option -g status-left "#[bg=${light_purple},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
+    tmux set-option -g status-left "#[bg=${light_purple},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[nobold]#{?client_prefix,#[fg=${yellow}],#[fg=${light_purple}]}#[bg=${tn_bar_bg}]${slant_right} "
   fi
 
   # Status right -- only touch if real plugins are configured
@@ -201,13 +204,13 @@ main()
 
   # Window option — active: tokyo-night orange, inactive: muted but readable
   if $show_powerline; then
-    tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${tn_orange}]${left_sep}#[fg=${dark_gray},bg=${tn_orange},bold]   #I #W#{?window_zoomed_flag, 🔎,}${current_flags}   #[fg=${tn_orange},bg=${gray}]${left_sep}"
+    tmux set-window-option -g window-status-current-format "#[fg=${tn_bar_bg},bg=${tn_orange}]${left_sep}#[fg=${dark_gray},bg=${tn_orange},bold]   #I #W#{?window_zoomed_flag, 🔎,}${current_flags}   #[fg=${tn_orange},bg=${tn_bar_bg}]${left_sep}"
   else
-    tmux set-window-option -g window-status-current-format "#[fg=${dark_gray},bg=${tn_orange},bold]   #I #W#{?window_zoomed_flag, 🔎,}${current_flags}   "
+    tmux set-window-option -g window-status-current-format "#[fg=${tn_orange},bg=${tn_bar_bg}]${slant_left}#[fg=${dark_gray},bg=${tn_orange},bold]  #I #W#{?window_zoomed_flag, 🔎,}${current_flags}  #[fg=${tn_orange},bg=${tn_bar_bg},nobold]${slant_right}"
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${tn_fg_dark}]#[bg=${gray}]   #I #W#{?window_zoomed_flag, 🔎,}${flags}   "
-  tmux set-window-option -g window-status-separator "   "
+  tmux set-window-option -g window-status-format "#[fg=${gray},bg=${tn_bar_bg}]${slant_left}#[fg=${tn_fg_dark},bg=${gray}]  #I #W#{?window_zoomed_flag, 🔎,}${flags}  #[fg=${gray},bg=${tn_bar_bg}]${slant_right}"
+  tmux set-window-option -g window-status-separator " "
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
 }
